@@ -6,6 +6,7 @@ use App\Repository\SupplierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: SupplierRepository::class)]
 class Supplier
@@ -18,6 +19,7 @@ class Supplier
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Ignore]
     #[ORM\ManyToMany(targetEntity: Material::class, mappedBy: 'supplier')]
     private Collection $materials;
 

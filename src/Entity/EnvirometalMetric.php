@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EnvirometalMetricRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: EnvirometalMetricRepository::class)]
 class EnvirometalMetric
@@ -20,6 +21,7 @@ class EnvirometalMetric
     #[ORM\JoinColumn(nullable: false)]
     private ?MetricType $metric_type = null;
 
+    #[Ignore]
     #[ORM\ManyToOne(inversedBy: 'material_metric')]
     private ?Material $material = null;
 

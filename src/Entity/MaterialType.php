@@ -6,6 +6,7 @@ use App\Repository\MaterialTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: MaterialTypeRepository::class)]
 class MaterialType
@@ -18,12 +19,13 @@ class MaterialType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+/*     #[Ignore]
     #[ORM\OneToMany(mappedBy: 'material_type', targetEntity: Material::class)]
-    private Collection $materials;
+    private Collection $materials; */
 
     public function __construct()
     {
-        $this->materials = new ArrayCollection();
+     /*    $this->materials = new ArrayCollection(); */
     }
 
     public function getId(): ?int
@@ -46,7 +48,7 @@ class MaterialType
     /**
      * @return Collection<int, Material>
      */
-    public function getMaterials(): Collection
+   /*  public function getMaterials(): Collection
     {
         return $this->materials;
     }
@@ -71,5 +73,5 @@ class MaterialType
         }
 
         return $this;
-    }
+    } */
 }

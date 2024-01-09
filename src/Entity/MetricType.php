@@ -6,6 +6,7 @@ use App\Repository\MetricTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[ORM\Entity(repositoryClass: MetricTypeRepository::class)]
 class MetricType
@@ -18,6 +19,7 @@ class MetricType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Ignore]
     #[ORM\OneToMany(mappedBy: 'metric_type', targetEntity: EnvirometalMetric::class, orphanRemoval: true)]
     private Collection $envirometalMetrics;
 
