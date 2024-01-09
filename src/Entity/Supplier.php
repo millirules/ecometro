@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MaterialTypeRepository;
+use App\Repository\SupplierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MaterialTypeRepository::class)]
-class MaterialType
+#[ORM\Entity(repositoryClass: SupplierRepository::class)]
+class Supplier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class MaterialType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'material_type', targetEntity: Material::class)]
+    #[ORM\ManyToMany(targetEntity: Material::class, mappedBy: 'supplier')]
     private Collection $materials;
 
     public function __construct()
@@ -55,7 +55,7 @@ class MaterialType
     {
         if (!$this->materials->contains($material)) {
             $this->materials->add($material);
-            $material->setMaterialType($this);
+            $material->addSupplier($this);
         }
 
         return $this;
@@ -64,10 +64,7 @@ class MaterialType
     public function removeMaterial(Material $material): static
     {
         if ($this->materials->removeElement($material)) {
-            // set the owning side to null (unless already changed)
-            if ($material->getMaterialType() === $this) {
-                $material->setMaterialType(null);
-            }
+            $material->removeSupplier($this);
         }
 
         return $this;

@@ -20,6 +20,9 @@ class EnvirometalMetric
     #[ORM\JoinColumn(nullable: false)]
     private ?MetricType $metric_type = null;
 
+    #[ORM\ManyToOne(inversedBy: 'material_metric')]
+    private ?Material $material = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class EnvirometalMetric
     public function setMetricType(?MetricType $metric_type): static
     {
         $this->metric_type = $metric_type;
+
+        return $this;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): static
+    {
+        $this->material = $material;
 
         return $this;
     }
