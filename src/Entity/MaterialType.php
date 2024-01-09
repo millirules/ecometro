@@ -19,13 +19,13 @@ class MaterialType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-/*     #[Ignore]
+   /*  #[Ignore]
     #[ORM\OneToMany(mappedBy: 'material_type', targetEntity: Material::class)]
     private Collection $materials; */
 
     public function __construct()
     {
-     /*    $this->materials = new ArrayCollection(); */
+        /* $this->materials = new ArrayCollection(); */
     }
 
     public function getId(): ?int

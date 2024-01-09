@@ -52,6 +52,7 @@ final class MaterialFactory extends ModelFactory
             'material_type' => MaterialTypeFactory::new(),
             'name' => self::faker()->text(255),
             'updatedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+            'supplier' => [SupplierFactory::new()],
         ];
     }
 
