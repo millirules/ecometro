@@ -34,10 +34,10 @@ class Material
     private Collection $material_enviromental_metric;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    public ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {

@@ -18,7 +18,7 @@ use App\Repository\SupplierRepository;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
 use Exception;
 
-
+#[Route("/api", "api_", format: "json")]
 class MaterialController extends AbstractController
 {
     #[Route('/material', name: 'app_material')]
@@ -33,9 +33,11 @@ class MaterialController extends AbstractController
     #[Route('/materials', name: 'app_materials', methods: ["GET"])]
     public function materials(MaterialRepository $materialRepository, Request $request): JsonResponse
     {
-        $materials = $materialRepository->findAll();
-        //$request->query->get('filtro');
-        $materials = $materialRepository->findByNameField($request->query->get('name'));
+        if (!empty($request->query->get('name'))) {
+            $materials = $materialRepository->findByNameField($request->query->get('name'));
+        } else {
+            $materials = $materialRepository->findAll();
+        }
 
         return $this->json($materials);
     }
@@ -45,10 +47,7 @@ class MaterialController extends AbstractController
     {
         return $this->json($material);
     }
-    /**
-     * TODO: Hay que cambiar el value de enviromental metric a la tabla pivote
-     */
-
+    
     #[Route("/materials", "create_material", methods: ["POST"])]
     public function createCentro(Request $request, ValidatorInterface $validator,
                                 MaterialRepository $materialRepository, MaterialTypeRepository $materialTypeRepository,
