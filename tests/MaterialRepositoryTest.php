@@ -9,17 +9,25 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 use App\Entity\Material;
+use App\Entity\MaterialType;
+use App\Entity\Supplier;
+use App\Repository\MaterialTypeRepository;
+use App\Repository\SupplierRepository;
 use DateTimeImmutable;
 
 class MaterialRepositoryTest extends KernelTestCase
 {
     private EntityManager $em;
     private ValidatorInterface  $validator;
+    private MaterialTypeRepository $materialTypeRepository;
+    private SupplierRepository $supplierRepository;
 
     protected function setUp(): void
     {
         $this->em = self::getContainer()->get('doctrine')->getManager();
         $this->validator = self::getContainer()->get("validator");
+        $this->materialTypeRepository = $this->em->getRepository(MaterialType::class);
+        $this->supplierRepository = $this->em->getRepository(Supplier::class);
     }
 
     public function testDefaultValues(): void
@@ -30,6 +38,8 @@ class MaterialRepositoryTest extends KernelTestCase
         $this->assertNull($material->getId());
         $this->assertNull($material->getName());
         $this->assertNull($material->getCost());
+        $this->assertNull($material->getMaterialType());
+        $this->assertEmpty($material->getSupplier());
         $this->assertNull($material->getCreatedAt());
         $this->assertNull($material->getUpdatedAt());
     }
@@ -42,7 +52,6 @@ class MaterialRepositoryTest extends KernelTestCase
         foreach($errors as $error) {
             $this->assertInstanceOf(NotBlank::class, $errors[0]->getConstraint());
         }
-        
 
         $material->setName("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas");
         /** @var ConstraintViolation[] $errors */
@@ -79,6 +88,24 @@ class MaterialRepositoryTest extends KernelTestCase
 
         // Detch the entity to prevent tracking unused entity
         $this->em->detach($material);
+    }
+
+    public function testMaterialType()
+    {
+        $material = new Material();
+        $materialType = $this->materialTypeRepository->findOneBy([]);
+
+        $material->setMaterialType($materialType);
+        $this->assertSame($materialType, $material->getMaterialType());
+    }
+
+    public function testSupplier()
+    {
+        $material = new Material();
+        $supplier = $this->supplierRepository->findOneBy([]);
+
+        $material->addSupplier($supplier);
+        $this->assertTrue($material->hasSupplier($supplier));
     }
 }
  

@@ -103,6 +103,15 @@ class Material
         return $this;
     }
 
+    public function hasSupplier(Supplier $supplier): bool
+    {
+        if ($this->supplier->contains($supplier)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function removeSupplier(Supplier $supplier): static
     {
         $this->supplier->removeElement($supplier);
