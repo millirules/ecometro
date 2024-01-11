@@ -6,7 +6,9 @@ use App\Repository\MaterialRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use \DateTimeImmutable;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
 class Material
 {
@@ -143,9 +145,10 @@ class Material
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new DateTimeImmutable('now');
 
         return $this;
     }
@@ -155,9 +158,11 @@ class Material
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new DateTimeImmutable('now');
 
         return $this;
     }

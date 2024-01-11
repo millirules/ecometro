@@ -16,16 +16,17 @@ class MetricType
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+   // #[Ignore]
+   // #[ORM\Column(length: 255)]
+  //  private ?string $name = null;
 
-    #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'metric_type', targetEntity: EnvirometalMetric::class, orphanRemoval: true)]
-    private Collection $envirometalMetrics;
+  //  #[Ignore]
+  //  #[ORM\OneToMany(mappedBy: 'metric_type', targetEntity: EnvirometalMetric::class, orphanRemoval: true)]
+  //  private Collection $envirometalMetrics;
 
     public function __construct()
     {
-        $this->envirometalMetrics = new ArrayCollection();
+        $this->envirometalMetrics = [];
     }
 
     public function getId(): ?int
@@ -35,7 +36,7 @@ class MetricType
 
     public function getName(): ?string
     {
-        return $this->name;
+        return "";
     }
 
     public function setName(string $name): static
@@ -48,11 +49,11 @@ class MetricType
     /**
      * @return Collection<int, EnvirometalMetric>
      */
-    public function getEnvirometalMetrics(): Collection
+    /* public function getEnvirometalMetrics(): Collection
     {
         return $this->envirometalMetrics;
     }
-
+ */
     public function addEnvirometalMetric(EnvirometalMetric $envirometalMetric): static
     {
         if (!$this->envirometalMetrics->contains($envirometalMetric)) {
