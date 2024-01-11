@@ -34,7 +34,6 @@ class MaterialRepositoryTest extends KernelTestCase
     {
         $material = new Material();
 
-        // Test default values
         $this->assertNull($material->getId());
         $this->assertNull($material->getName());
         $this->assertNull($material->getCost());
@@ -79,14 +78,11 @@ class MaterialRepositoryTest extends KernelTestCase
     {
         $material = new Material();
 
-        // Persist the entity (not flush) in order to generate the createdAt and updatedAt fields
         $this->em->persist($material);
 
-        // Test the createdAt and updatedAt setter and getter methods
         $this->assertInstanceOf(DateTimeImmutable::class, $material->getCreatedAt());
         $this->assertInstanceOf(DateTimeImmutable::class, $material->getUpdatedAt());
 
-        // Detch the entity to prevent tracking unused entity
         $this->em->detach($material);
     }
 
